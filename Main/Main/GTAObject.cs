@@ -22,7 +22,10 @@ namespace Main
 
             if (track)
             {
-                objects.Add(addr, this);
+                if (!objects.ContainsKey(addr))
+                {
+                    objects.Add(addr, this);
+                }
             }
         }
 

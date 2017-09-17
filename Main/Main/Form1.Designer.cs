@@ -57,6 +57,7 @@
             this.metroProgressSpinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.metroTabPage1 = new MetroFramework.Controls.MetroTabPage();
             this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
             this.Toggle_NoReload = new MetroFramework.Controls.MetroToggle();
             this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
@@ -72,13 +73,38 @@
             this.Toggle_FastShoot = new MetroFramework.Controls.MetroToggle();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.Toggle_Ped_Drop = new MetroFramework.Controls.MetroToggle();
+            this.metroProgressBar1 = new MetroFramework.Controls.MetroProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.Toggle_Car_Godmode = new MetroFramework.Controls.MetroToggle();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.TrackBar_Acceleration = new MetroFramework.Controls.MetroTrackBar();
+            this.Trackbar_Breakforce = new MetroFramework.Controls.MetroTrackBar();
+            this.Trackbar_Traction = new MetroFramework.Controls.MetroTrackBar();
+            this.Trackbar_Suspension = new MetroFramework.Controls.MetroTrackBar();
+            this.Label_Acceleration = new MetroFramework.Controls.MetroLabel();
+            this.Label_Breakforce = new MetroFramework.Controls.MetroLabel();
+            this.Label_Traction = new MetroFramework.Controls.MetroLabel();
+            this.Label_Suspension = new MetroFramework.Controls.MetroLabel();
+            this.Tile_BurnCar = new MetroFramework.Controls.MetroTile();
+            this.Tile_RepairCar = new MetroFramework.Controls.MetroTile();
+            this.metroTabPage2 = new MetroFramework.Controls.MetroTabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Playerlimit)).BeginInit();
             this.metroTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.metroPanel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.metroPanel2.SuspendLayout();
+            this.metroTabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Wantedlevel)).BeginInit();
+            this.metroTabPage2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // metroRadioButton1
@@ -158,7 +184,7 @@
             // 
             this.TrackBar_Label.AutoSize = true;
             this.TrackBar_Label.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.TrackBar_Label.Location = new System.Drawing.Point(312, 317);
+            this.TrackBar_Label.Location = new System.Drawing.Point(312, 235);
             this.TrackBar_Label.Name = "TrackBar_Label";
             this.TrackBar_Label.Size = new System.Drawing.Size(45, 19);
             this.TrackBar_Label.TabIndex = 15;
@@ -255,7 +281,7 @@
             // Label_Alarm
             // 
             this.Label_Alarm.Font = new System.Drawing.Font("Roboto", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label_Alarm.Location = new System.Drawing.Point(23, 412);
+            this.Label_Alarm.Location = new System.Drawing.Point(23, 430);
             this.Label_Alarm.Name = "Label_Alarm";
             this.Label_Alarm.Size = new System.Drawing.Size(1058, 23);
             this.Label_Alarm.TabIndex = 21;
@@ -342,9 +368,11 @@
             // 
             this.metroTabControl1.Controls.Add(this.tabPage1);
             this.metroTabControl1.Controls.Add(this.tabPage2);
+            this.metroTabControl1.Controls.Add(this.metroTabPage1);
+            this.metroTabControl1.Controls.Add(this.metroTabPage2);
             this.metroTabControl1.Location = new System.Drawing.Point(594, 50);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.SelectedIndex = 3;
             this.metroTabControl1.Size = new System.Drawing.Size(495, 373);
             this.metroTabControl1.TabIndex = 25;
             this.metroTabControl1.UseSelectable = true;
@@ -408,10 +436,25 @@
             this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel2.VerticalScrollbarSize = 10;
             // 
+            // metroTabPage1
+            // 
+            this.metroTabPage1.Controls.Add(this.panel1);
+            this.metroTabPage1.HorizontalScrollbarBarColor = true;
+            this.metroTabPage1.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage1.HorizontalScrollbarSize = 10;
+            this.metroTabPage1.Location = new System.Drawing.Point(4, 38);
+            this.metroTabPage1.Name = "metroTabPage1";
+            this.metroTabPage1.Size = new System.Drawing.Size(487, 331);
+            this.metroTabPage1.TabIndex = 2;
+            this.metroTabPage1.Text = "Vehicle";
+            this.metroTabPage1.VerticalScrollbarBarColor = true;
+            this.metroTabPage1.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage1.VerticalScrollbarSize = 10;
+            // 
             // metroLabel9
             // 
             this.metroLabel9.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel9.Location = new System.Drawing.Point(23, 224);
+            this.metroLabel9.Location = new System.Drawing.Point(16, 19);
             this.metroLabel9.Name = "metroLabel9";
             this.metroLabel9.Size = new System.Drawing.Size(197, 19);
             this.metroLabel9.TabIndex = 17;
@@ -422,7 +465,7 @@
             // 
             this.Toggle_NoReload.AutoSize = true;
             this.Toggle_NoReload.Enabled = false;
-            this.Toggle_NoReload.Location = new System.Drawing.Point(226, 226);
+            this.Toggle_NoReload.Location = new System.Drawing.Point(219, 21);
             this.Toggle_NoReload.Name = "Toggle_NoReload";
             this.Toggle_NoReload.Size = new System.Drawing.Size(80, 17);
             this.Toggle_NoReload.TabIndex = 16;
@@ -433,7 +476,7 @@
             // metroLabel10
             // 
             this.metroLabel10.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel10.Location = new System.Drawing.Point(23, 247);
+            this.metroLabel10.Location = new System.Drawing.Point(16, 42);
             this.metroLabel10.Name = "metroLabel10";
             this.metroLabel10.Size = new System.Drawing.Size(197, 19);
             this.metroLabel10.TabIndex = 17;
@@ -444,7 +487,7 @@
             // 
             this.Toggle_InfAmmo.AutoSize = true;
             this.Toggle_InfAmmo.Enabled = false;
-            this.Toggle_InfAmmo.Location = new System.Drawing.Point(226, 249);
+            this.Toggle_InfAmmo.Location = new System.Drawing.Point(219, 44);
             this.Toggle_InfAmmo.Name = "Toggle_InfAmmo";
             this.Toggle_InfAmmo.Size = new System.Drawing.Size(80, 17);
             this.Toggle_InfAmmo.TabIndex = 16;
@@ -455,7 +498,7 @@
             // metroLabel11
             // 
             this.metroLabel11.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel11.Location = new System.Drawing.Point(23, 293);
+            this.metroLabel11.Location = new System.Drawing.Point(16, 88);
             this.metroLabel11.Name = "metroLabel11";
             this.metroLabel11.Size = new System.Drawing.Size(197, 19);
             this.metroLabel11.TabIndex = 17;
@@ -466,7 +509,7 @@
             // 
             this.Toggle_Untouchable.AutoSize = true;
             this.Toggle_Untouchable.Enabled = false;
-            this.Toggle_Untouchable.Location = new System.Drawing.Point(226, 295);
+            this.Toggle_Untouchable.Location = new System.Drawing.Point(219, 91);
             this.Toggle_Untouchable.Name = "Toggle_Untouchable";
             this.Toggle_Untouchable.Size = new System.Drawing.Size(80, 17);
             this.Toggle_Untouchable.TabIndex = 16;
@@ -502,7 +545,7 @@
             // 
             this.metroTile1.ActiveControl = null;
             this.metroTile1.Enabled = false;
-            this.metroTile1.Location = new System.Drawing.Point(23, 346);
+            this.metroTile1.Location = new System.Drawing.Point(23, 264);
             this.metroTile1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.metroTile1.Name = "metroTile1";
             this.metroTile1.Size = new System.Drawing.Size(197, 64);
@@ -514,17 +557,17 @@
             // metroLabel13
             // 
             this.metroLabel13.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel13.Location = new System.Drawing.Point(23, 317);
+            this.metroLabel13.Location = new System.Drawing.Point(23, 235);
             this.metroLabel13.Name = "metroLabel13";
             this.metroLabel13.Size = new System.Drawing.Size(197, 19);
             this.metroLabel13.TabIndex = 17;
-            this.metroLabel13.Text = "Speedhack";
+            this.metroLabel13.Text = "Runspeed";
             this.metroLabel13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // metroTrackBar1
             // 
             this.metroTrackBar1.BackColor = System.Drawing.Color.Transparent;
-            this.metroTrackBar1.Location = new System.Drawing.Point(226, 317);
+            this.metroTrackBar1.Location = new System.Drawing.Point(226, 235);
             this.metroTrackBar1.Maximum = 500;
             this.metroTrackBar1.Minimum = 100;
             this.metroTrackBar1.Name = "metroTrackBar1";
@@ -537,7 +580,7 @@
             // metroLabel1
             // 
             this.metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel1.Location = new System.Drawing.Point(23, 270);
+            this.metroLabel1.Location = new System.Drawing.Point(16, 65);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(197, 19);
             this.metroLabel1.TabIndex = 17;
@@ -548,7 +591,7 @@
             // 
             this.Toggle_FastShoot.AutoSize = true;
             this.Toggle_FastShoot.Enabled = false;
-            this.Toggle_FastShoot.Location = new System.Drawing.Point(226, 272);
+            this.Toggle_FastShoot.Location = new System.Drawing.Point(219, 67);
             this.Toggle_FastShoot.Name = "Toggle_FastShoot";
             this.Toggle_FastShoot.Size = new System.Drawing.Size(80, 17);
             this.Toggle_FastShoot.TabIndex = 16;
@@ -578,18 +621,278 @@
             this.Toggle_Ped_Drop.UseSelectable = true;
             this.Toggle_Ped_Drop.CheckedChanged += new System.EventHandler(this.Toggle_Ped_Drop_CheckedChanged);
             // 
+            // metroProgressBar1
+            // 
+            this.metroProgressBar1.Location = new System.Drawing.Point(92, 28);
+            this.metroProgressBar1.Maximum = 1000;
+            this.metroProgressBar1.Name = "metroProgressBar1";
+            this.metroProgressBar1.Size = new System.Drawing.Size(374, 17);
+            this.metroProgressBar1.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(16, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(52, 18);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Health";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(16, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(125, 18);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Vehicle Godmode";
+            // 
+            // Toggle_Car_Godmode
+            // 
+            this.Toggle_Car_Godmode.AutoSize = true;
+            this.Toggle_Car_Godmode.Enabled = false;
+            this.Toggle_Car_Godmode.Location = new System.Drawing.Point(145, 54);
+            this.Toggle_Car_Godmode.Name = "Toggle_Car_Godmode";
+            this.Toggle_Car_Godmode.Size = new System.Drawing.Size(80, 17);
+            this.Toggle_Car_Godmode.TabIndex = 18;
+            this.Toggle_Car_Godmode.Text = "Aus";
+            this.Toggle_Car_Godmode.UseSelectable = true;
+            this.Toggle_Car_Godmode.CheckedChanged += new System.EventHandler(this.Toggle_Car_Godmode_CheckedChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(16, 128);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(92, 18);
+            this.label3.TabIndex = 18;
+            this.label3.Text = "Acceleration";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(16, 157);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(81, 18);
+            this.label4.TabIndex = 18;
+            this.label4.Text = "Breakforce";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(16, 186);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(63, 18);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Traction";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Roboto", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(16, 216);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(126, 18);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Suspension Force";
+            // 
+            // TrackBar_Acceleration
+            // 
+            this.TrackBar_Acceleration.BackColor = System.Drawing.Color.Transparent;
+            this.TrackBar_Acceleration.Location = new System.Drawing.Point(145, 123);
+            this.TrackBar_Acceleration.Maximum = 9000;
+            this.TrackBar_Acceleration.Name = "TrackBar_Acceleration";
+            this.TrackBar_Acceleration.Size = new System.Drawing.Size(266, 23);
+            this.TrackBar_Acceleration.TabIndex = 27;
+            this.TrackBar_Acceleration.Text = "metroTrackBar1";
+            this.TrackBar_Acceleration.Value = 0;
+            this.TrackBar_Acceleration.Scroll += new System.Windows.Forms.ScrollEventHandler(this.TrackBar_Acceleration_Scroll);
+            // 
+            // Trackbar_Breakforce
+            // 
+            this.Trackbar_Breakforce.BackColor = System.Drawing.Color.Transparent;
+            this.Trackbar_Breakforce.Location = new System.Drawing.Point(145, 152);
+            this.Trackbar_Breakforce.Maximum = 9000;
+            this.Trackbar_Breakforce.Name = "Trackbar_Breakforce";
+            this.Trackbar_Breakforce.Size = new System.Drawing.Size(266, 23);
+            this.Trackbar_Breakforce.TabIndex = 27;
+            this.Trackbar_Breakforce.Text = "metroTrackBar1";
+            this.Trackbar_Breakforce.Value = 0;
+            this.Trackbar_Breakforce.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Trackbar_Breakforce_Scroll);
+            // 
+            // Trackbar_Traction
+            // 
+            this.Trackbar_Traction.BackColor = System.Drawing.Color.Transparent;
+            this.Trackbar_Traction.Location = new System.Drawing.Point(145, 181);
+            this.Trackbar_Traction.Maximum = 9000;
+            this.Trackbar_Traction.Name = "Trackbar_Traction";
+            this.Trackbar_Traction.Size = new System.Drawing.Size(266, 23);
+            this.Trackbar_Traction.TabIndex = 27;
+            this.Trackbar_Traction.Text = "metroTrackBar1";
+            this.Trackbar_Traction.Value = 0;
+            this.Trackbar_Traction.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Trackbar_Traction_Scroll);
+            // 
+            // Trackbar_Suspension
+            // 
+            this.Trackbar_Suspension.BackColor = System.Drawing.Color.Transparent;
+            this.Trackbar_Suspension.Location = new System.Drawing.Point(145, 211);
+            this.Trackbar_Suspension.Maximum = 9000;
+            this.Trackbar_Suspension.Name = "Trackbar_Suspension";
+            this.Trackbar_Suspension.Size = new System.Drawing.Size(266, 23);
+            this.Trackbar_Suspension.TabIndex = 27;
+            this.Trackbar_Suspension.Text = "metroTrackBar1";
+            this.Trackbar_Suspension.Value = 0;
+            this.Trackbar_Suspension.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Trackbar_Suspension_Scroll);
+            // 
+            // Label_Acceleration
+            // 
+            this.Label_Acceleration.AutoSize = true;
+            this.Label_Acceleration.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.Label_Acceleration.Location = new System.Drawing.Point(429, 127);
+            this.Label_Acceleration.Name = "Label_Acceleration";
+            this.Label_Acceleration.Size = new System.Drawing.Size(37, 19);
+            this.Label_Acceleration.TabIndex = 15;
+            this.Label_Acceleration.Text = "0.00";
+            // 
+            // Label_Breakforce
+            // 
+            this.Label_Breakforce.AutoSize = true;
+            this.Label_Breakforce.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.Label_Breakforce.Location = new System.Drawing.Point(429, 156);
+            this.Label_Breakforce.Name = "Label_Breakforce";
+            this.Label_Breakforce.Size = new System.Drawing.Size(37, 19);
+            this.Label_Breakforce.TabIndex = 15;
+            this.Label_Breakforce.Text = "0.00";
+            // 
+            // Label_Traction
+            // 
+            this.Label_Traction.AutoSize = true;
+            this.Label_Traction.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.Label_Traction.Location = new System.Drawing.Point(429, 185);
+            this.Label_Traction.Name = "Label_Traction";
+            this.Label_Traction.Size = new System.Drawing.Size(37, 19);
+            this.Label_Traction.TabIndex = 15;
+            this.Label_Traction.Text = "0.00";
+            // 
+            // Label_Suspension
+            // 
+            this.Label_Suspension.AutoSize = true;
+            this.Label_Suspension.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.Label_Suspension.Location = new System.Drawing.Point(429, 213);
+            this.Label_Suspension.Name = "Label_Suspension";
+            this.Label_Suspension.Size = new System.Drawing.Size(37, 19);
+            this.Label_Suspension.TabIndex = 15;
+            this.Label_Suspension.Text = "0.00";
+            // 
+            // Tile_BurnCar
+            // 
+            this.Tile_BurnCar.ActiveControl = null;
+            this.Tile_BurnCar.Enabled = false;
+            this.Tile_BurnCar.Location = new System.Drawing.Point(260, 75);
+            this.Tile_BurnCar.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.Tile_BurnCar.Name = "Tile_BurnCar";
+            this.Tile_BurnCar.Size = new System.Drawing.Size(206, 43);
+            this.Tile_BurnCar.Style = MetroFramework.MetroColorStyle.Red;
+            this.Tile_BurnCar.TabIndex = 26;
+            this.Tile_BurnCar.Text = "Burn car";
+            this.Tile_BurnCar.UseSelectable = true;
+            this.Tile_BurnCar.Click += new System.EventHandler(this.Tile_BurnCar_Click);
+            // 
+            // Tile_RepairCar
+            // 
+            this.Tile_RepairCar.ActiveControl = null;
+            this.Tile_RepairCar.Enabled = false;
+            this.Tile_RepairCar.Location = new System.Drawing.Point(19, 75);
+            this.Tile_RepairCar.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.Tile_RepairCar.Name = "Tile_RepairCar";
+            this.Tile_RepairCar.Size = new System.Drawing.Size(205, 43);
+            this.Tile_RepairCar.Style = MetroFramework.MetroColorStyle.Green;
+            this.Tile_RepairCar.TabIndex = 26;
+            this.Tile_RepairCar.Text = "Repair car";
+            this.Tile_RepairCar.UseSelectable = true;
+            this.Tile_RepairCar.Click += new System.EventHandler(this.Tile_RepairCar_Click);
+            // 
+            // metroTabPage2
+            // 
+            this.metroTabPage2.Controls.Add(this.panel2);
+            this.metroTabPage2.HorizontalScrollbarBarColor = true;
+            this.metroTabPage2.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroTabPage2.HorizontalScrollbarSize = 10;
+            this.metroTabPage2.Location = new System.Drawing.Point(4, 38);
+            this.metroTabPage2.Name = "metroTabPage2";
+            this.metroTabPage2.Size = new System.Drawing.Size(487, 331);
+            this.metroTabPage2.TabIndex = 3;
+            this.metroTabPage2.Text = "Weapon";
+            this.metroTabPage2.VerticalScrollbarBarColor = true;
+            this.metroTabPage2.VerticalScrollbarHighlightOnWheel = false;
+            this.metroTabPage2.VerticalScrollbarSize = 10;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.Trackbar_Suspension);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.Tile_RepairCar);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.TrackBar_Acceleration);
+            this.panel1.Controls.Add(this.metroProgressBar1);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.Trackbar_Breakforce);
+            this.panel1.Controls.Add(this.Label_Acceleration);
+            this.panel1.Controls.Add(this.Toggle_Car_Godmode);
+            this.panel1.Controls.Add(this.Label_Suspension);
+            this.panel1.Controls.Add(this.Tile_BurnCar);
+            this.panel1.Controls.Add(this.Trackbar_Traction);
+            this.panel1.Controls.Add(this.Label_Traction);
+            this.panel1.Controls.Add(this.Label_Breakforce);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(487, 331);
+            this.panel1.TabIndex = 2;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.metroLabel9);
+            this.panel2.Controls.Add(this.Toggle_FastShoot);
+            this.panel2.Controls.Add(this.metroLabel11);
+            this.panel2.Controls.Add(this.metroLabel10);
+            this.panel2.Controls.Add(this.metroLabel1);
+            this.panel2.Controls.Add(this.Toggle_Untouchable);
+            this.panel2.Controls.Add(this.Toggle_NoReload);
+            this.panel2.Controls.Add(this.Toggle_InfAmmo);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(487, 331);
+            this.panel2.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1108, 456);
+            this.ClientSize = new System.Drawing.Size(1108, 469);
             this.Controls.Add(this.metroTrackBar1);
             this.Controls.Add(this.metroTile1);
+            this.Controls.Add(this.Toggle_Alarm);
             this.Controls.Add(this.metroTabControl1);
-            this.Controls.Add(this.Toggle_FastShoot);
-            this.Controls.Add(this.Toggle_Untouchable);
-            this.Controls.Add(this.Toggle_InfAmmo);
-            this.Controls.Add(this.Toggle_NoReload);
             this.Controls.Add(this.Toggle_NewSession);
             this.Controls.Add(this.NumericUpDown_Wantedlevel);
             this.Controls.Add(this.NumericUpDown_Playerlimit);
@@ -600,18 +903,13 @@
             this.Controls.Add(this.Toggle_RP);
             this.Controls.Add(this.metroLabel6);
             this.Controls.Add(this.metroLabel5);
-            this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.metroLabel13);
             this.Controls.Add(this.metroLabel2);
-            this.Controls.Add(this.metroLabel11);
             this.Controls.Add(this.metroLabel4);
-            this.Controls.Add(this.metroLabel10);
             this.Controls.Add(this.metroLabel12);
             this.Controls.Add(this.metroLabel8);
-            this.Controls.Add(this.metroLabel9);
             this.Controls.Add(this.metroLabel7);
             this.Controls.Add(this.metroLabel3);
-            this.Controls.Add(this.Toggle_Alarm);
             this.Controls.Add(this.TrackBar_Label);
             this.Controls.Add(this.metroRadioButton3);
             this.Controls.Add(this.metroRadioButton2);
@@ -630,7 +928,13 @@
             this.metroPanel1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.metroPanel2.ResumeLayout(false);
+            this.metroTabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Wantedlevel)).EndInit();
+            this.metroTabPage2.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -681,6 +985,28 @@
         internal MetroFramework.Controls.MetroToggle Toggle_FastShoot;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroToggle Toggle_Ped_Drop;
+        private MetroFramework.Controls.MetroTabPage metroTabPage1;
+        private System.Windows.Forms.Label label1;
+        internal MetroFramework.Controls.MetroProgressBar metroProgressBar1;
+        private System.Windows.Forms.Label label2;
+        private MetroFramework.Controls.MetroToggle Toggle_Car_Godmode;
+        private MetroFramework.Controls.MetroTrackBar Trackbar_Suspension;
+        private MetroFramework.Controls.MetroTrackBar Trackbar_Traction;
+        private MetroFramework.Controls.MetroTrackBar Trackbar_Breakforce;
+        private MetroFramework.Controls.MetroTrackBar TrackBar_Acceleration;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private MetroFramework.Controls.MetroLabel Label_Suspension;
+        private MetroFramework.Controls.MetroLabel Label_Traction;
+        private MetroFramework.Controls.MetroLabel Label_Breakforce;
+        private MetroFramework.Controls.MetroLabel Label_Acceleration;
+        private MetroFramework.Controls.MetroTile Tile_BurnCar;
+        private MetroFramework.Controls.MetroTile Tile_RepairCar;
+        private MetroFramework.Controls.MetroTabPage metroTabPage2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

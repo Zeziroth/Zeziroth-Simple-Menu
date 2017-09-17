@@ -21,6 +21,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return (IntPtr)0x0;
             }
             IntPtr baseAddress = p.MainModule.BaseAddress;
@@ -40,6 +41,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return null;
             }
             IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, p.Id);
@@ -55,6 +57,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return (T)Convert.ChangeType("0", typeof(T)); ;
             }
             IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, p.Id);
@@ -99,6 +102,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return;
             }
 
@@ -120,6 +124,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return;
             }
             bool success;
@@ -131,6 +136,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return;
             }
             bool success;
@@ -142,6 +148,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return;
             }
             bool success;
@@ -153,6 +160,7 @@ namespace Main
         {
             if (!isRunning())
             {
+                Form1.frm.Init();
                 return;
             }
             bool success;

@@ -99,6 +99,7 @@
     <Compile Include="MemoryManagement\ProcessMethods.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Players.cs" />
+    <Compile Include="Vehicle.cs" />
     <Compile Include="Weapon.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Pointer.cs" />

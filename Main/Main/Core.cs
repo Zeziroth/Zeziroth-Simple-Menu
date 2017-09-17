@@ -30,10 +30,12 @@ namespace Main
         }
 
     );
-            if (threadPool.ContainsKey(unixMilli))
+            while (threadPool.ContainsKey(unixMilli))
             {
                 Thread.Sleep(5);
+                unixMilli = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
             }
+           
 
             threadPool.Add(unixMilli, newThread);
             newThread.Start();

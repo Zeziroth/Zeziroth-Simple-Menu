@@ -13,6 +13,7 @@ namespace Main
         private bool rphacking = false;
         private bool nopolice = false;
         private bool godmode = false;
+        private bool vGodmode = false;
         private bool sessionalarm = false;
         private bool untouchable = false;
         private bool peddrop = false;
@@ -117,7 +118,7 @@ namespace Main
                     {
                         GTA5Entity ped = new GTA5Entity(v6);
                         if (ped.Get_Health() > 200f || ped.Get_Health() == 0f) continue;
-                        //Todo: Manipulate PEDCash
+                        ped.structs.SetValue("iCash", 2000);
                         ped.Kill();
                         ped.TeleportToMe();
                     }
@@ -136,6 +137,24 @@ namespace Main
         public void SetWantedLevel(Int32 value)
         {
             World.structs.SetValue("Wanted", value);
+        }
+        public void VGodmode()
+        {
+            vGodmode = true;
+
+            while (vGodmode)
+            {
+                Vehicle vehicle = Vehicle.CurrenVehicle();
+                if (vehicle != null)
+                {
+                    vehicle.Set_Health(1000f);
+                }
+                Thread.Sleep(50);
+            }
+        }
+        public void VGodmode_Stop()
+        {
+            vGodmode = false;
         }
         public void Godmode()
         {
@@ -323,17 +342,19 @@ namespace Main
             {
                 if (World.structs.GetValue<int>("IN_VEHICLE") == 0)
                 {
-                    World.structs.SetValue("VEHICLE_POS_X", obj.Pos_X());
-                    World.structs.SetValue("VEHICLE_POS_Y", obj.Pos_Y());
-                    World.structs.SetValue("VEHICLE_POS_Z", -210f);
-                }
-                else
-                {
-                    World.structs.SetValue("POS_X", obj.Pos_X());
-                    World.structs.SetValue("POS_Y", obj.Pos_Y());
-                    World.structs.SetValue("POS_Z", -210f);
+                    Vehicle vehicle = Vehicle.CurrenVehicle();
+                    if (vehicle != null)
+                    {
+                        vehicle.Set_PosX(obj.Pos_X());
+                        vehicle.Set_PosY(obj.Pos_Y());
+                        vehicle.Set_PosZ(-210f);
+                    }
+
                 }
 
+                World.structs.SetValue("POS_X", obj.Pos_X());
+                World.structs.SetValue("POS_Y", obj.Pos_Y());
+                World.structs.SetValue("POS_Z", -210f);
                 return;
             }
         }
@@ -341,16 +362,21 @@ namespace Main
         {
             if (World.structs.GetValue<int>("IN_VEHICLE") == 0)
             {
-                World.structs.SetValue("VEHICLE_POS_X", x);
-                World.structs.SetValue("VEHICLE_POS_Y", y);
-                World.structs.SetValue("VEHICLE_POS_Z", -210f);
+                Vehicle vehicle = Vehicle.CurrenVehicle();
+                if (vehicle != null)
+                {
+                    vehicle.Set_PosX(x);
+                    vehicle.Set_PosY(y);
+                    vehicle.Set_PosZ(-210f);
+
+                    World.structs.SetValue("POS_X", x);
+                    World.structs.SetValue("POS_Y", y);
+                    World.structs.SetValue("POS_Z", -210f);
+                }
             }
-            else
-            {
-                World.structs.SetValue("POS_X", x);
-                World.structs.SetValue("POS_Y", y);
-                World.structs.SetValue("POS_Z", -210f);
-            }
+            World.structs.SetValue("POS_X", x);
+            World.structs.SetValue("POS_Y", y);
+            World.structs.SetValue("POS_Z", -210f);
 
             return;
         }

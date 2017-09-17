@@ -31,7 +31,8 @@ namespace Main
             { "MAXHEALTH", new Dictionary<int, int[]>(){ { 4, new int[] { 0x2A0 } } } },
             { "POS_X", new Dictionary<int, int[]>(){ { 4, new int[] {  0x90 } } } },
             { "POS_Y", new Dictionary<int, int[]>(){ { 4, new int[] {  0x94 } } } },
-            { "POS_Z", new Dictionary<int, int[]>(){ { 4, new int[] {  0x98 } } } }
+            { "POS_Z", new Dictionary<int, int[]>(){ { 4, new int[] {  0x98 } } } },
+            { "iCash", new Dictionary<int, int[]>(){ { 4, new int[] { 0x15D4 } } } }
             });
         }
 
