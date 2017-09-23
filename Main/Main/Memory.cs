@@ -21,7 +21,6 @@ namespace Main
         {
             if (!isRunning())
             {
-                Form1.frm.Init();
                 return (IntPtr)0x0;
             }
             IntPtr baseAddress = p.MainModule.BaseAddress;
@@ -34,6 +33,9 @@ namespace Main
         public static extern bool ReadProcessMemory(int hProcess, long lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
         [DllImport("kernel32.dll")]
         internal static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, IntPtr nSize, ref UInt32 lpNumberOfBytesWritten);
+        [DllImport("user32", CharSet = CharSet.Ansi, SetLastError = true)]
+
+        public static extern short GetAsyncKeyState(int vKey);
         #endregion
         #region Read/Write Memory
         //READ
@@ -53,7 +55,26 @@ namespace Main
 
             return buffer;
         }
-        public static T Read<T>(long address, Int32 bufferSize)
+        public static T Read<T>(long address, int len)
+        {
+            try
+            {
+                int size = Marshal.SizeOf(typeof(T));
+                byte[] buffer = new byte[len];
+                int read = 0;
+                IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, p.Id);
+                ReadProcessMemory((int)processHandle, address, buffer, len, ref read);
+                GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                T data = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                handle.Free();
+                return data;
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
+        }
+        public static T ReadOld<T>(long address, Int32 bufferSize)
         {
             if (!isRunning())
             {
@@ -86,6 +107,26 @@ namespace Main
                 default:
                     MessageBox.Show("Default" + Environment.NewLine + Core.GetGenericType(new Dictionary<int, T>()));
                     return (T)Convert.ChangeType("0", typeof(T));
+            }
+        }
+        public static T Read<T>(long address)
+        {
+            try
+            {
+                int size = Marshal.SizeOf(typeof(T));
+                byte[] buffer = new byte[size];
+                int read = 0;
+                IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, p.Id);
+                ReadProcessMemory((int)processHandle, address, buffer, size, ref read);
+                GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                T data = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+
+                handle.Free();
+                return data;
+            }
+            catch (Exception)
+            {
+                return default(T);
             }
         }
         //WRITE

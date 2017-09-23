@@ -17,6 +17,7 @@ namespace Main
         private bool sessionalarm = false;
         private bool untouchable = false;
         private bool peddrop = false;
+        private bool antiAFK = false;
 
         [Flags]
         public enum ThreadAccess : int
@@ -98,34 +99,63 @@ namespace Main
         public void PEDDrop_Start()
         {
             peddrop = true;
+            float x = World.structs.GetValue<float>("POS_X");
+            float y = World.structs.GetValue<float>("POS_Y");
+            float z = World.structs.GetValue<float>("POS_Z");
 
             while (peddrop)
             {
-                IntPtr PEDCount = Base.GetPtr(Base.pedListPTR, new int[] { 0x110 });
-                int maxPED = Memory.Read<int>(PEDCount.ToInt64(), 4);
-                IntPtr v26 = Base.GetPtr(Base.pedListPTR, new int[] { 0x100 });
-                IntPtr localPlayer = Base.GetPtr(Base.WorldPTR, new int[] { 0x8 });
-
-                for (int i = 0; i < maxPED; i++)
+                try
                 {
-                    //Thanks to kiddion
-                    IntPtr v6 = Base.GetPtr(v26, new int[] { i * 0x10 });
-                    IntPtr v24 = Base.GetPtr(v6, new int[] { 0x30 });
-                    IntPtr v23 = Base.GetPtr(v6, new int[] { 0x20 });
-                    IntPtr v5 = Base.GetPtr(v23, new int[] { 0x270 });
+                    IntPtr PEDCount = Base.GetPtr(Base.pedListPTR, new int[] { 0x110 });
+                    int maxPED = Memory.Read<int>(PEDCount.ToInt64());
+                    IntPtr v26 = Base.GetPtr(Base.pedListPTR, new int[] { 0x100 });
+                    IntPtr localPlayer = Base.GetPtr(Base.WorldPTR, new int[] { 0x8 });
 
-                    if (Memory.Read<byte>(v5.ToInt64(), 1) == 77)
+                    for (int i = 0; i < maxPED; i++)
                     {
-                        GTA5Entity ped = new GTA5Entity(v6);
-                        if (ped.Get_Health() > 200f || ped.Get_Health() == 0f) continue;
-                        ped.structs.SetValue("iCash", 2000);
-                        ped.Kill();
-                        ped.TeleportToMe();
+                        //Thanks to kiddion
+                        IntPtr v6 = Base.GetPtr(v26, new int[] { i * 0x10 });
+                        IntPtr v24 = Base.GetPtr(v6, new int[] { 0x30 });
+                        IntPtr v23 = Base.GetPtr(v6, new int[] { 0x20 });
+                        IntPtr v5 = Base.GetPtr(v23, new int[] { 0x270 });
+
+                        if (Memory.Read<byte>(v5.ToInt64()) == 77)
+                        {
+                            GTA5Entity ped = new GTA5Entity(v6);
+                            if (ped.Get_Health() > 200f || ped.Get_Health() == 0f) continue;
+                            ped.structs.SetValue("iCash", (int) Form1.frm.Numeric_PED_Value.Value);
+
+                            ped.Kill();
+                            ped.TeleportTo(x, y, z);
+                        }
                     }
+                }
+                catch
+                {
+                    continue;
                 }
             }
         }
-
+        public void AntiAFK_Start()
+        {
+            antiAFK = true;
+            float x = World.structs.GetValue<float>("POS_X");
+            float y = World.structs.GetValue<float>("POS_Y");
+            float z = World.structs.GetValue<float>("POS_Z");
+            bool up = true;
+            while (antiAFK)
+            {
+                z = up ? z + 0.1f : z -0.1f;
+                up = !up;
+                TPToCoords(x,y,z);
+                Thread.Sleep(60000);
+            }
+        }
+        public void AntiAFK_Stop()
+        {
+            antiAFK = false;
+        }
         public void PEDDrop_Stop()
         {
             peddrop = false;
@@ -162,8 +192,16 @@ namespace Main
 
             while (godmode)
             {
-                World.structs.SetValue("HEALTH", World.structs.GetValue<float>("MAXHEALTH"));
-                Thread.Sleep(50);
+                try
+                {
+                    World.structs.SetValue("HEALTH", World.structs.GetValue<float>("MAXHEALTH"));
+
+                    Thread.Sleep((int)(Form1.frm.Numeric_Refill_HP.Value * 1000));
+                }
+                catch
+                {
+                    continue;
+                }
             }
 
             World.structs.SetValue("HEALTH", World.structs.GetValue<float>("MAXHEALTH"));
@@ -178,11 +216,18 @@ namespace Main
 
             while (nopolice)
             {
-                if (GetWantedLevel() > 0)
+                try
                 {
-                    SetWantedLevel(0);
+                    if (GetWantedLevel() > 0)
+                    {
+                        SetWantedLevel(0);
+                    }
+                    Thread.Sleep(500);
                 }
-                Thread.Sleep(500);
+                catch
+                {
+                    continue;
+                }
             }
 
             SetWantedLevel(0);
@@ -199,18 +244,25 @@ namespace Main
 
             while (rphacking)
             {
-                SetWantedLevel(5);
-                Thread.Sleep(Settings.RP_SPEED);
-                SetWantedLevel(0);
-                Thread.Sleep(Settings.RP_SPEED);
+                try
+                {
+                    SetWantedLevel(5);
+                    Thread.Sleep(Settings.RP_SPEED);
+                    SetWantedLevel(0);
+                    Thread.Sleep(Settings.RP_SPEED);
+                }
+                catch
+                {
+                    continue;
+                }
             }
 
             SetWantedLevel(0);
         }
         public void TP_Waypoint()
         {
-            float x = Memory.Read<float>(Base.WaypointPTR_X.ToInt64(), 4);
-            float y = Memory.Read<float>(Base.WaypointPTR_Y.ToInt64(), 4);
+            float x = Memory.Read<float>(Base.WaypointPTR_X.ToInt64());
+            float y = Memory.Read<float>(Base.WaypointPTR_Y.ToInt64());
 
             if (x != 64000f && y != 64000f)
             {
@@ -223,14 +275,21 @@ namespace Main
 
             while (untouchable)
             {
-                List<GTA5Entity> attackers = GTA5Entity.GetAttackers();
-
-                foreach (GTA5Entity attacker in attackers)
+                try
                 {
-                    attacker.KillAll();
-                }
+                    List<GTA5Entity> attackers = GTA5Entity.GetAttackers();
 
-                Thread.Sleep(300);
+                    foreach (GTA5Entity attacker in attackers)
+                    {
+                        attacker.KillAll();
+                    }
+
+                    Thread.Sleep(300);
+                }
+                catch
+                {
+                    continue;
+                }
             }
         }
 
@@ -240,7 +299,7 @@ namespace Main
         }
         private void InfAmmo(bool restore = false)
         {
-            byte[] cur = Memory.Read<byte[]>(Base.AmmoPTR.ToInt64(), 3);
+            byte[] cur = Memory.Read<byte[]>(Base.AmmoPTR.ToInt64());
             byte[] opcode = new byte[3] { 65, 43, 209 };
 
             if (restore)
@@ -268,7 +327,7 @@ namespace Main
         }
         private void NoReload(bool restore = false)
         {
-            byte[] cur = Memory.Read<byte[]>(Base.ClipPTR.ToInt64(), 3);
+            byte[] cur = Memory.Read<byte[]>(Base.ClipPTR.ToInt64());
             byte[] opcode = new byte[3] { 65, 43, 201 };
 
             if (restore)
@@ -301,32 +360,39 @@ namespace Main
 
             while (sessionalarm)
             {
-                int players = Players.structs.GetValue<int>("Playercount");
-
-                if (players > Form1.frm.NumericUpDown_Playerlimit.Value)
+                try
                 {
-                    Invoker.SetText(Form1.frm.Label_Alarm, (players - 1) + " other players in your session!", "Red");
-                    System.Media.SystemSounds.Hand.Play();
-                    Thread.Sleep(500);
+                    int players = Players.structs.GetValue<int>("Playercount");
 
-                    if (!suspending && Form1.frm.Toggle_NewSession.Checked)
+                    if (players > Form1.frm.NumericUpDown_Playerlimit.Value)
                     {
-                        suspending = true;
-                        SuspendProcess("GTA5");
+                        Invoker.SetText(Form1.frm.Label_Alarm, (players - 1) + " other players in your session!", "Red");
+                        System.Media.SystemSounds.Hand.Play();
+                        Thread.Sleep(500);
 
-                        for (int i = 0; i < 12; i++)
+                        if (!suspending && Form1.frm.Toggle_NewSession.Checked)
                         {
-                            Invoker.SetText(Form1.frm.Label_Alarm, "Switching to solo session (" + (12 - i) + ")");
-                            Thread.Sleep(1000);
-                        }
+                            suspending = true;
+                            SuspendProcess("GTA5");
 
-                        ResumeProcess("GTA5");
+                            for (int i = 0; i < 12; i++)
+                            {
+                                Invoker.SetText(Form1.frm.Label_Alarm, "Switching to solo session (" + (12 - i) + ")");
+                                Thread.Sleep(1000);
+                            }
+
+                            ResumeProcess("GTA5");
+                        }
+                    }
+                    else
+                    {
+                        suspending = false;
+                        Invoker.SetText(Form1.frm.Label_Alarm, "");
                     }
                 }
-                else
+                catch
                 {
-                    suspending = false;
-                    Invoker.SetText(Form1.frm.Label_Alarm, "");
+                    continue;
                 }
             }
             Invoker.SetText(Form1.frm.Label_Alarm, "");
@@ -360,6 +426,10 @@ namespace Main
         }
         public void TPToCoords(float x, float y)
         {
+            TPToCoords(x, y, -210f);
+        }
+        public void TPToCoords(float x, float y, float z)
+        {
             if (World.structs.GetValue<int>("IN_VEHICLE") == 0)
             {
                 Vehicle vehicle = Vehicle.CurrenVehicle();
@@ -371,14 +441,12 @@ namespace Main
 
                     World.structs.SetValue("POS_X", x);
                     World.structs.SetValue("POS_Y", y);
-                    World.structs.SetValue("POS_Z", -210f);
+                    World.structs.SetValue("POS_Z", z);
                 }
             }
             World.structs.SetValue("POS_X", x);
             World.structs.SetValue("POS_Y", y);
-            World.structs.SetValue("POS_Z", -210f);
-
-            return;
+            World.structs.SetValue("POS_Z", z);
         }
         public void StopRP()
         {

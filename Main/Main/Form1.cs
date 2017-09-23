@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Threading;
 using System.Collections.Generic;
+using System.Net;
 
 namespace Main
 {
@@ -9,6 +10,7 @@ namespace Main
     {
         public static Form1 frm = null;
         private static bool globalStop = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -19,6 +21,7 @@ namespace Main
             frm = this;
             Core.RunThread(Init);
         }
+
         private void ToggleElements(bool toggle)
         {
             Invoker.ChangeEnable(Toggle_RP, toggle);
@@ -33,20 +36,59 @@ namespace Main
             Invoker.ChangeEnable(Toggle_Car_Godmode, toggle);
             Invoker.ChangeEnable(Tile_BurnCar, toggle);
             Invoker.ChangeEnable(Tile_RepairCar, toggle);
+            Invoker.ChangeEnable(Toggle_AntiAFK, toggle);
+            //Invoker.ChangeEnable(Tile_TPPlayerMe, toggle);
+            Invoker.ChangeEnable(Tile_TPToPlayer, toggle);
+            //Invoker.ChangeEnable(Tile_TeleportPlayerWP, toggle);
             Invoker.ChangeEnable(NumericUpDown_Wantedlevel, toggle);
             Invoker.ChangeEnable(metroTile1, toggle);
         }
+        private void KeyBinds()
+        {
+            bool vehicleBoost = false;
+
+            while (true)
+            {
+                try
+                {
+                    if (Memory.GetAsyncKeyState((int)(Keys.Add)) != 0)
+                    {
+                        Vehicle vehicle = Vehicle.CurrenVehicle();
+
+                        if (vehicle != null)
+                        {
+                            vehicleBoost = !vehicleBoost;
+                            float newSpeed = vehicleBoost ? (TrackBar_Acceleration.Maximum / 100f) : 1f;
+                            vehicle.Set_Acceleration(newSpeed);
+                            Thread.Sleep(1000);
+                        }
+                    }
+                    Thread.Sleep(50);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+        }
+
         public void Init()
         {
+            metroTrackBar2.Value = (int)(this.Opacity * 100);
             ToggleElements(false);
             Memory.api = null;
             globalStop = true;
 
             while (!Memory.isRunning() && Memory.api == null)
             {
-                Invoker.SetText(Label_Alarm, "Please open GTA5 (SC Version)", "Red");
+                Invoker.SetText(Label_Alarm, "Please open GTA5", "Red");
             }
-            Base.RefreshBase();
+            try
+            {
+                Base.RefreshBase(metroRadioButton4.Checked);
+            }
+            catch { }
+
             globalStop = false;
             Invoker.SetText(Label_Alarm, "");
 
@@ -55,52 +97,70 @@ namespace Main
 
             Core.RunThread(LoadBlip);
             Core.RunThread(TrackVehicle);
-
-            TrackPlayer();
+            Core.RunThread(KeyBinds);
+            Core.RunThread(TrackPlayer);
         }
         private void TrackPlayer()
         {
             int oldPlayers = 0;
+
             while (!globalStop)
             {
-                int newPlayers = Players.structs.GetValue<int>("Playercount");
 
-                if (newPlayers != oldPlayers)
+                try
                 {
-                    oldPlayers = newPlayers;
-                    List<Player> players = Players.GetPlayers();
-
-                    Invoker.ClearList(metroListView1);
-                    foreach (Player player in players)
+                    int newPlayers = Players.structs.GetValue<int>("Playercount");
+                    if (newPlayers != oldPlayers)
                     {
-                        Invoker.AddListItem(metroListView1, new ListViewItem(player.Get_Nickname()));
+                        oldPlayers = newPlayers;
+                        List<Player> players = Players.GetPlayers();
+                        Invoker.ClearList(metroListView1);
+                        foreach (Player player in players)
+                        {
+                            ListViewItem itm = new ListViewItem(player.Get_Nickname());
+                            itm.Tag = player;
+                            Invoker.AddListItem(metroListView1, itm);
+                        }
                     }
+                    Thread.Sleep(500);
                 }
-                Thread.Sleep(500);
+                catch
+                {
+                    continue;
+                }
             }
         }
         private void TrackVehicle()
         {
             while (!globalStop)
             {
-                Vehicle vehicle = Vehicle.CurrenVehicle();
-                if (vehicle != null)
+                try
                 {
-                    float fHealth = vehicle.Get_Health();
-                    fHealth = fHealth < 0f ? 0 : fHealth;
+                    Vehicle vehicle = Vehicle.CurrenVehicle();
+                    if (vehicle != null)
+                    {
+                        float fHealth = vehicle.Get_Health();
+                        fHealth = fHealth < 0f ? 0 : fHealth;
 
-                    Invoker.SetPrgbState(metroProgressBar1, (int)fHealth, Invoker.Mode.SetValue);
+                        Invoker.SetPrgbState(metroProgressBar1, (int)fHealth, Invoker.Mode.SetValue);
+                    }
+                    Thread.Sleep(1000);
+                    TrackBar_Acceleration.Value = (int)(vehicle.Get_Acceleration() * 100);
+                    Invoker.SetText(Label_Acceleration, (TrackBar_Acceleration.Value / 100f).ToString("0.00").Replace(",", "."));
+                    Trackbar_Breakforce.Value = (int)(vehicle.Get_Breakforce() * 100);
+                    Invoker.SetText(Label_Breakforce, (Trackbar_Breakforce.Value / 100f).ToString("0.00").Replace(",", "."));
+                    Trackbar_Suspension.Value = (int)(vehicle.Get_Suspension() * 100);
+                    Invoker.SetText(Label_Suspension, (Trackbar_Suspension.Value / 100f).ToString("0.00").Replace(",", "."));
+                    Trackbar_Traction.Value = (int)(vehicle.Get_Traction() * 100);
+                    Invoker.SetText(Label_Traction, (Trackbar_Traction.Value / 100f).ToString("0.00").Replace(",", "."));
+                    Trackbar_Gravity.Value = (int)(vehicle.Get_Gravity() * 100);
+                    Invoker.SetText(Label_Gravity, (Trackbar_Gravity.Value / 100f).ToString("0.00").Replace(",", "."));
+                    Thread.Sleep(500);
                 }
-                Thread.Sleep(1000);
-                TrackBar_Acceleration.Value = (int)(vehicle.Get_Acceleration() * 100);
-                Invoker.SetText(Label_Acceleration, (TrackBar_Acceleration.Value / 100f).ToString("0.00").Replace(",", "."));
-                Trackbar_Breakforce.Value = (int)(vehicle.Get_Breakforce() * 100);
-                Invoker.SetText(Label_Breakforce, (Trackbar_Breakforce.Value / 100f).ToString("0.00").Replace(",", "."));
-                Trackbar_Suspension.Value = (int)(vehicle.Get_Suspension() * 100);
-                Invoker.SetText(Label_Suspension,(Trackbar_Suspension.Value / 100f).ToString("0.00").Replace(",", "."));
-                Trackbar_Traction.Value = (int)(vehicle.Get_Traction() * 100);
-                Invoker.SetText(Label_Traction, (Trackbar_Traction.Value / 100f).ToString("0.00").Replace(",", "."));
-                Thread.Sleep(500);
+                catch
+                {
+                    continue;
+                }
             }
         }
         private void metroRadioButton1_CheckedChanged(object sender, EventArgs e)
@@ -141,8 +201,8 @@ namespace Main
             Invoker.ChangeVisible(metroProgressSpinner1, true);
 
             List<GTAObject> objects = new List<GTAObject>();
-            
-            for (int i = 1; i < 0x800; i++)
+
+            for (int i = 3; i < 0x800; i++)
             {
 
                 try
@@ -167,10 +227,11 @@ namespace Main
 
             foreach (GTAObject obj in objects)
             {
+                if (obj.GetBlip() == GTAObject.BlipSprite.Player) continue;
                 Invoker.ProgressSpinner_SetValue(Form1.frm.metroProgressSpinner1, objCount);
                 objCount++;
                 ListViewItem itm = new ListViewItem();
-                itm.Text = obj.ID().ToString();
+                itm.Text = obj.GetName();
                 itm.SubItems.Add(obj.Pos_X().ToString());
                 itm.SubItems.Add(obj.Pos_Y().ToString());
                 itm.Tag = obj;
@@ -246,12 +307,17 @@ namespace Main
             {
                 Core.RunThread(Memory.api.Godmode_Stop);
             }
+
+            metroLabel15.Visible = Toggle_Godmode.Checked;
+            metroLabel16.Visible = Toggle_Godmode.Checked;
+            Numeric_Refill_HP.Visible = Toggle_Godmode.Checked;
         }
 
         private void Toggle_NoReload_CheckedChanged(object sender, EventArgs e)
         {
             if (Toggle_NoReload.Checked)
             {
+
                 Core.RunThread(Memory.api.NoReload_Start);
             }
             else
@@ -320,6 +386,8 @@ namespace Main
             {
                 Core.RunThread(Memory.api.PEDDrop_Stop);
             }
+            metroLabel14.Visible = Toggle_Ped_Drop.Checked;
+            Numeric_PED_Value.Visible = Toggle_Ped_Drop.Checked;
         }
 
         private void Toggle_Car_Godmode_CheckedChanged(object sender, EventArgs e)
@@ -394,6 +462,101 @@ namespace Main
             {
                 vehicle.Repair();
             }
+        }
+
+        private void metroRadioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Base.RefreshBase(metroRadioButton4.Checked);
+            }
+            catch { }
+        }
+
+        private void metroRadioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Base.RefreshBase(metroRadioButton4.Checked);
+            }
+            catch { }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroListView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (metroListView1.SelectedItems.Count == 1)
+            {
+                ListViewItem itm = metroListView1.SelectedItems[0];
+                MessageBox.Show(IPAddress.Parse(((Player)itm.Tag).Get_IP().ToString()).ToString());
+            }
+        }
+
+        private void Tile_TPToPlayer_Click(object sender, EventArgs e)
+        {
+            if (metroListView1.SelectedItems.Count == 1)
+            {
+                ListViewItem itm = metroListView1.SelectedItems[0];
+                Player player = Players.GetPlayerByName(itm.Text);
+                if (player != null)
+                {
+                    Memory.api.TPToCoords(player.Get_PosX(), player.Get_PosY());
+                }
+            }
+        }
+
+        private void metroListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (metroListView1.SelectedItems.Count == 1)
+            {
+                try
+                {
+                    ListViewItem itm = metroListView1.SelectedItems[0];
+                    Player player = Players.GetPlayerByName(itm.Text);
+                    if (player != null)
+                    {
+                        Label_PlayerIP.Text = IPAddress.Parse(player.Get_IP().ToString()).ToString() + ":" + player.Get_Port().ToString();
+                        Label_PlayerUsername.Text = player.Get_Nickname();
+                    }
+                }
+                catch
+                {
+                    Label_PlayerIP.Text = "0.0.0.0";
+                    Label_PlayerUsername.Text = "";
+                }
+            }
+        }
+
+        private void Toggle_AntiAFK_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Toggle_AntiAFK.Checked)
+            {
+                Core.RunThread(Memory.api.AntiAFK_Start);
+            }
+            else
+            {
+                Core.RunThread(Memory.api.AntiAFK_Stop);
+            }
+        }
+
+        private void Trackbar_Gravity_Scroll(object sender, ScrollEventArgs e)
+        {
+            Label_Gravity.Text = (Trackbar_Gravity.Value / 100f).ToString("0.00").Replace(",", ".");
+            Vehicle vehicle = Vehicle.CurrenVehicle();
+
+            if (vehicle != null)
+            {
+                vehicle.Set_Gravity((Trackbar_Gravity.Value / 100f));
+            }
+        }
+
+        private void metroTrackBar2_Scroll(object sender, ScrollEventArgs e)
+        {
+            this.Opacity = (metroTrackBar2.Value / 100d);
         }
     }
 }

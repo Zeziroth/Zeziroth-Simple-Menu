@@ -23,7 +23,8 @@ namespace Main
             { "BREAKFORCE", new Dictionary<int, int[]>(){ { 4, new int[] {  0x8A8, 0x6C } } } },
             { "CURVE_TRACTION", new Dictionary<int, int[]>(){ { 4, new int[] {  0x8A8, 0x90 } } } },
             { "DEMOLITION_MULTIPLIER", new Dictionary<int, int[]>(){ { 4, new int[] {  0x8A8, 0xF8 } } } },
-            { "SUSPENSION_FORCE", new Dictionary<int, int[]>(){ { 4, new int[] {  0x8A8, 0xBC } } } }
+            { "SUSPENSION_FORCE", new Dictionary<int, int[]>(){ { 4, new int[] {  0x8A8, 0xBC } } } },
+            { "GRAVITY", new Dictionary<int, int[]>(){ { 4, new int[] {  0x8A8, 0xB7C } } } },
             });
         }
         public static Vehicle CurrenVehicle()
@@ -46,6 +47,14 @@ namespace Main
             {
                 return vehicle;
             }
+        }
+        public float Get_Gravity()
+        {
+            return this.structs.GetValue<float>("GRAVITY");
+        }
+        public void Set_Gravity(float val)
+        {
+            this.structs.SetValue("GRAVITY", val);
         }
         public float Get_Acceleration()
         {

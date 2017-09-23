@@ -18,7 +18,8 @@ namespace Main
             { "MAXHEALTH", new Dictionary<int, int[]>(){ { 4, new int[] { (index * 0x18), 0x2A0 } } } },
             { "POS_X", new Dictionary<int, int[]>(){ { 4, new int[] { (index * 0x18), 0x110 } } } },
             { "POS_Y", new Dictionary<int, int[]>(){ { 4, new int[] { (index * 0x18), 0x114 } } } },
-            { "POS_Z", new Dictionary<int, int[]>(){ { 4, new int[] { (index * 0x18), 0x118 } } } }
+            { "POS_Z", new Dictionary<int, int[]>(){ { 4, new int[] { (index * 0x18), 0x118 } } } },
+            { "ENTITY", new Dictionary<int, int[]>(){ { 4, new int[] { (index * 0x18) } } } }
             });
         }
 
@@ -35,7 +36,6 @@ namespace Main
             { "iCash", new Dictionary<int, int[]>(){ { 4, new int[] { 0x15D4 } } } }
             });
         }
-
         public float Get_PosX()
         {
             return this.structs.GetValue<float>("POS_X");
@@ -59,13 +59,24 @@ namespace Main
             this.structs.SetValue("POS_Y", y);
             this.structs.SetValue("POS_Z", z + 2.5f);
         }
+        public void TeleportTo(float x, float y, float z)
+        {
+            this.structs.SetValue("POS_X", x);
+            this.structs.SetValue("POS_Y", y);
+            this.structs.SetValue("POS_Z", z);
+        }
         public void Kill()
         {
+            IntPtr a = new IntPtr(this.structs.GetValue<int>("ENTITY"));
+            IntPtr b = Base.GetPtr(Base.WorldPTR, new int[] { 0x8, 0x0 });
+
+            if (a == b) return;
+
             this.Set_Health(0f);
         }
         public void KillAll()
         {
-            this.Set_Health(0f);
+            this.Kill();
             List<GTA5Entity> entityAttackers = this.Attackers();
             foreach (GTA5Entity entity in entityAttackers)
             {
@@ -79,11 +90,15 @@ namespace Main
             for (int i = 0; i < 3; i++)
             {
                 GTA5Entity entity = new GTA5Entity(i, false, _baseAddr);
-                entitys.Add(entity);
+                if (entity.structs.GetValue<string>("") == "")
+                    entitys.Add(entity);
             }
             return entitys;
         }
-
+        public IntPtr GetBase()
+        {
+            return _baseAddr;
+        }
         public static List<GTA5Entity> GetAttackers()
         {
             List<GTA5Entity> entitys = new List<GTA5Entity>();
@@ -93,7 +108,6 @@ namespace Main
                 GTA5Entity entity = new GTA5Entity(i);
                 if (entity.Get_PosX() != 0f)
                 {
-
                     entitys.Add(entity);
                 }
             }
